@@ -1,11 +1,11 @@
 pipeline {
   agent any
   	stages {
-           dir('path/to/your/project/workspace'){
+           dir('/static'){
 
             pwd(); //Log current directory
 
-            withAWS(region:'us-west-2') {
+            withAWS(region:'us-west-2,'credentials:'aws-static') {
 
                  def identity=awsIdentity();//Log AWS credentials
 
