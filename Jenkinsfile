@@ -1,15 +1,18 @@
 pipeline {
   agent any
-  stages {
-    stage('Upload to AWS.') {
-      steps {
-        sh 'echo "Hello World"'
-        sh '''
-				echo "Multiline shell steps works too"
-				ls -lah
-			'''
-      }
-    }
+  	stages {
+           dir('path/to/your/project/workspace'){
 
-  }
+            pwd(); //Log current directory
+
+            withAWS(region:'us-west-2') {
+
+                 def identity=awsIdentity();//Log AWS credentials
+
+                // Upload files from working directory 'dist' in your project workspace
+                s3Upload(bucket:"jenkins-udacity-p3", workingDir:'dist', includePathPattern:'**/*');
+            }
+
+        };
+    }
 }
